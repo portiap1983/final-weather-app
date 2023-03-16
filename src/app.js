@@ -9,7 +9,6 @@ function formatDate(timestamp){
         minutes = `0${minutes}`;
     }
 
-
     let days = [
         "Sunday",
         "Monday",
@@ -23,8 +22,6 @@ function formatDate(timestamp){
 
 return `${day} ${hours}:${minutes}`;
 }
-
-
 
 function displayTemperature (response){
     let temperatureElement = document.querySelector ("#temperature");
@@ -44,8 +41,19 @@ iconElement.setAttribute("src", `http://shecodes-assets.s3.amazonaws.com/api/wea
 iconElement.setAttribute("alt", response.data.condition.description)
 }
 
+function search (city){
 let apiKey = "5a032ao3cfdb5cb2a245077a27fe06ft";
-let city = "Vancouver";
 let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`
-
 axios.get(apiUrl).then(displayTemperature);
+}
+
+function handleSubmit(event){
+    event.preventDefault();
+    let cityInputElement = document.querySelector("#city-input");
+    search (cityInputElement.value);
+}
+
+search ("New York");
+
+let form =document.querySelector ("#search-form");
+form.addEventListener ("submit", handleSubmit);
