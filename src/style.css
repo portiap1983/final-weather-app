@@ -73,3 +73,11 @@ weather-temperature.units {
 .weather-temperature active:hover{
     text-decoration: none;
 }
+
+.units {
+    vertical-align: top;
+}
+
+.units a {
+    text-decoration: none;
+}
