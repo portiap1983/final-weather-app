@@ -30,24 +30,33 @@ function formatDay (timestamp){
     return days [day];
 
 }
+
 function displayForecast(response) {
   let forecast = response.data.daily;
   let forecastElement = document.querySelector("#forecast");
   let forecastHTML = "";
 
-  forecast.forEach(function(forecastDay, index) {
+  forecast.forEach(function (forecastDay, index) {
+    console.log(forecastDay);
     if (index < 6) {
-      forecastHTML +=
-        `<div class="col-2">
-          <div class="weather-forecast-date">${formatDay(forecastDay.dt)}</div>
+      forecastHTML += `<div class="col-2">
+          <div class="weather-forecast-date">${formatDay(
+            forecastDay.time
+          )}</div>
           <img
-            src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${forecastDay.weather[0].icon}.png"
+            src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${
+              forecastDay.condition.icon
+            }.png"
             alt=""
             width="36"
           />
           <div class="weather-forecast-temperature">
-            <span class="weather-forecast-temperature-max">${Math.round(forecastDay.temp.max)}°</span>
-            <span class="weather-forecast-temperature-min">${Math.round(forecastDay.temp.min)}°</span>
+            <span class="weather-forecast-temperature-max">${Math.round(
+              forecastDay.temperature.maximum
+            )}°</span>
+            <span class="weather-forecast-temperature-min">${Math.round(
+              forecastDay.temperature.minimum
+            )}°</span>
           </div>
         </div>`;
     }
@@ -57,7 +66,6 @@ function displayForecast(response) {
   forecastElement.innerHTML = forecastHTML;
 }
 
-
 function getForecast (coordinates){
     apiKey="5a032ao3cfdb5cb2a245077a27fe06ft";
     let apiUrl =`https://api.shecodes.io/weather/v1/forecast?lon=${coordinates.longitude}&lat=${coordinates.latitude}&key=${apiKey}&unit=metric`;
@@ -65,7 +73,6 @@ axios.get(apiUrl).then(displayForecast);
 }
 
 function displayTemperature(response) {
-  console.log(response);
   let temperatureElement = document.querySelector("#temperature");
   let cityElement = document.querySelector("#city");
   let description = document.querySelector("#description");
@@ -84,8 +91,7 @@ function displayTemperature(response) {
   dateElement.innerHTML = formatDate(response.data.time * 1000);
   iconElement.setAttribute("src", `${response.data.condition.icon_url}`);
   iconElement.setAttribute("alt", response.data.condition.description);
-
-  console.log(response.data.coordinates);
+  getForecast(response.data.coordinates);
 }
 
 function search (city){
